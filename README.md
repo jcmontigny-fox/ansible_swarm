@@ -42,12 +42,12 @@ None
 Example Playbook
 ----------------
 
-Minimal call ( when this role will be available through github or ansible galaxy ):
+Minimal call :
 
     - hosts: servers
       become: true
       roles:
-        - jcmontigny.swarm
+        - jcmontigny.ansible_swarm
       vars:
         - swarm_managers_ansible_group: swarm_managers
         - swarm_workers_ansible_group: swarm_workers
@@ -57,7 +57,7 @@ Call to add privileges to some users to the docker CLI (example on AWS)
     - hosts: servers
       become: true
       roles:
-        - jcmontigny.swarm
+        - jcmontigny.ansible_swarm
       vars:
         - swarm_managers_ansible_group: swarm_managers
         - swarm_workers_ansible_group: swarm_workers
@@ -72,5 +72,5 @@ MIT
 Author Information
 ------------------
 
-Jean-Christophe Montigny ( https://github.com/jcmontigny )
+Jean-Christophe Montigny ( https://github.com/jcmontigny )  
 With insights from Antoine Lecouey
