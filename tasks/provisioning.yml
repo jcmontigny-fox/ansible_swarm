@@ -1,0 +1,10 @@
+---
+# tasks file for swarm - provisioning
+
+- name: Add users to docker group
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  with_items: "{{ swarm_docker_group_members }}"
+  when: swarm_docker_group_members is defined

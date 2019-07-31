@@ -1,0 +1,13 @@
+---
+# tasks file for swarm
+
+- include_tasks: deployment-debian.yml
+  when: ansible_distribution == 'Debian'
+
+- include_tasks: provisioning.yml
+
+- include_tasks: init_first_manager.yml
+
+- include_tasks: managers_join.yml
+
+- include_tasks: workers_join.yml

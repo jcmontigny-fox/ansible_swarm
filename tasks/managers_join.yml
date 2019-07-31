@@ -1,0 +1,23 @@
+---
+# tasks file for swarm - managers_join
+
+- name: Get the manager join-token
+  shell: docker swarm join-token -q manager
+  changed_when: False
+  register: swarm_manager_token
+  delegate_to: "{{ groups[swarm_managers_ansible_group][0] }}"
+  delegate_facts: True
+  when: "swarm_managers_ansible_group in group_names
+    and inventory_hostname != groups[swarm_managers_ansible_group][0]"
+
+- name: Join the pending swarm manager nodes to the swarm cluster
+  shell: "docker swarm join
+        --listen-addr {{ swarm_network_address }}:{{ swarm_network_port }}
+        --advertise-addr {{ swarm_network_address }}
+        --token {{ swarm_manager_token.stdout }}
+        {{ swarm_manager_address }}"
+  changed_when: False
+  when: "docker_info.stdout.find('Swarm: active') == -1
+    and docker_info.stdout.find('Swarm: pending') == -1
+    and swarm_managers_ansible_group in group_names
+    and inventory_hostname != groups[swarm_managers_ansible_group][0]"

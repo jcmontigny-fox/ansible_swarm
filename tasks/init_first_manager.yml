@@ -1,0 +1,24 @@
+---
+# tasks file for swarm - init_first_manager
+
+- name: Check if swarm mode is active on all nodes
+  shell: docker info
+  changed_when: False
+  register: docker_info
+
+- name: Init swarm mode on the first manager node
+  shell: docker swarm init
+        --listen-addr {{ swarm_network_address }}:{{ swarm_network_port }}
+        --advertise-addr {{ swarm_network_address }}
+  when: "docker_info.stdout.find('Swarm: active') == -1
+    and inventory_hostname == groups[swarm_managers_ansible_group][0]"
+
+- name: Set the address of the first swarm manager as fact.
+  set_fact:
+    swarm_manager_address: "{{ swarm_network_address }}:{{ swarm_network_port }}"
+  when: "inventory_hostname == groups[swarm_managers_ansible_group][0]"
+
+- name: Distribute the swarm_manager_address fact to all the other nodes.
+  set_fact:
+    swarm_manager_address: "{{ hostvars[groups[swarm_managers_ansible_group][0]]['swarm_manager_address'] }}"
+  when: "inventory_hostname != groups[swarm_managers_ansible_group][0]"
