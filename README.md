@@ -6,7 +6,7 @@ A very simple role to quickly set up a Swarm mode cluster using docker-ce.
 Requirements
 ------------
 
-This role should be applied to all hosts (managers and workers) taking part in the cluster.
+- The Ansible inventory group name for the manager and worker nodes should be passed to the role
 
 Role Variables
 --------------
@@ -44,7 +44,7 @@ Example Playbook
 
 Minimal call :
 
-    - hosts: servers
+    - hosts: swarm_managers, swarm_workers
       become: true
       roles:
         - jcmontigny.ansible_swarm
@@ -54,7 +54,7 @@ Minimal call :
 
 Call to add privileges to some users to the docker CLI (example on AWS)
 
-    - hosts: servers
+    - hosts: swarm_managers, swarm_workers
       become: true
       roles:
         - jcmontigny.ansible_swarm
