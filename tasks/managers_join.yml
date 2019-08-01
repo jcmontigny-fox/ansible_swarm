@@ -2,7 +2,7 @@
 # tasks file for swarm - managers_join
 
 - name: Get the manager join-token
-  shell: docker swarm join-token -q manager
+  command: docker swarm join-token -q manager
   changed_when: False
   register: swarm_manager_token
   delegate_to: "{{ groups[swarm_managers_ansible_group][0] }}"
@@ -11,7 +11,7 @@
     and inventory_hostname != groups[swarm_managers_ansible_group][0]"
 
 - name: Join the pending swarm manager nodes to the swarm cluster
-  shell: "docker swarm join
+  command: "docker swarm join
         --listen-addr {{ swarm_network_address }}:{{ swarm_network_port }}
         --advertise-addr {{ swarm_network_address }}
         --token {{ swarm_manager_token.stdout }}

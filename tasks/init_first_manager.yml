@@ -2,12 +2,12 @@
 # tasks file for swarm - init_first_manager
 
 - name: Check if swarm mode is active on all nodes
-  shell: docker info
+  command: docker info
   changed_when: False
   register: docker_info
 
 - name: Init swarm mode on the first manager node
-  shell: docker swarm init
+  command: docker swarm init
         --listen-addr {{ swarm_network_address }}:{{ swarm_network_port }}
         --advertise-addr {{ swarm_network_address }}
   when: "docker_info.stdout.find('Swarm: active') == -1
