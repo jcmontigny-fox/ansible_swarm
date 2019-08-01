@@ -73,4 +73,4 @@ Author Information
 ------------------
 
 Jean-Christophe Montigny ( https://github.com/jcmontigny )  
-With insights from Antoine Lecouey
+With inspiration from the role by atosatto ( https://github.com/atosatto/ansible-dockerswarm ) with some modifications
