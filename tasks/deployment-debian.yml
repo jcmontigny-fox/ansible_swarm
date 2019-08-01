@@ -8,32 +8,28 @@
     update_cache: yes
     name: ["apt-transport-https","ca-certificates","curl","gnupg2",software-properties-common]
     state: latest
-#  when: ansible_distribution == 'Debian'
 
 - name: Debian - add docker repository key
   apt_key: 
     url: "{{ swarm_apt_repo_key_url_debian }}"
     id: "{{ swarm_apt_repo_key_id_debian }}"
     state: "present"
-#  when: ansible_distribution == 'Debian'
 
 - name: Debian - add docker repository
   apt_repository:
     repo: '{{ swarm_apt_repository }}'
     state: 'present'
     update_cache: 'yes' 
-#  when: ansible_distribution == 'Debian'
 
 # docker-ce installation
 - name: Debian - update apt and install docker-ce
   apt:
     name: ["docker-ce","docker-ce-cli","containerd.io"]
     state: latest
-#  when: ansible_distribution == 'Debian'
 
 # Enable daemon service
 - name: 'enable docker systemd service'
   service:
     name: 'docker'
     state: 'started'
-#    enabled: 'yes'
+    enabled: 'yes'
